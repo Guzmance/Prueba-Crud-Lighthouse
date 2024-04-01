@@ -39,5 +39,28 @@ namespace CRUD_Lighthouse.Controllers
                 return View(categoryInfo);
             }
         }
+
+        // Método para obtener una categoría individual por ID
+        public async Task<ActionResult> Details(int id)
+        {
+            Category category = new Category();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(Baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response = await client.GetAsync($"categories/{id}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var categoryResponse = await response.Content.ReadAsStringAsync();
+                    category = JsonConvert.DeserializeObject<Category>(categoryResponse);
+                }
+
+                return View(category);
+            }
+        }
+
     }
 }

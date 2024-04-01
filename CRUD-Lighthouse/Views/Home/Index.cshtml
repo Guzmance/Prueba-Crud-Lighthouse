@@ -25,12 +25,14 @@
         </div>
     </div>
 </div>
+@section Scripts {
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                categories: @Html.Raw(Json.Serialize(Model))
+                    }
+        });
+    </script>
+}
 
-<script>
-    var app = new Vue({
-        el: '#app',
-        data: {
-            categories: @Html.Raw(Json.Serialize(Model))
-                }
-    });
-</script>
