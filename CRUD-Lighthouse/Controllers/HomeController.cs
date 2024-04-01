@@ -1,32 +1,43 @@
 using CRUD_Lighthouse.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 
 namespace CRUD_Lighthouse.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        // Web API REST Service base url
+        string Baseurl = "https://api.escuelajs.co/api/v1/";
 
-        public HomeController(ILogger<HomeController> logger)
+        // Método para obtener todas las categorías
+        public async Task<ActionResult> Index()
         {
-            _logger = logger;
-        }
+            List<Category> categoryInfo = new List<Category>();
+            using (var client = new HttpClient())
+            {
+                // Configurar la base url y los encabezados de la solicitud HTTP
+                client.BaseAddress = new Uri(Baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+                // Realizar la solicitud HTTP para obtener todas las categorías
+                HttpResponseMessage response = await client.GetAsync("categories");
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+                // Verificar si la solicitud fue exitosa
+                if (response.IsSuccessStatusCode)
+                {
+                    // Leer la respuesta JSON y deserializarla en una lista de categorías
+                    var categoryResponse = await response.Content.ReadAsStringAsync();
+                    categoryInfo = JsonConvert.DeserializeObject<List<Category>>(categoryResponse);
+                }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+                // Devolver la lista de categorías a la vista
+                return View(categoryInfo);
+            }
         }
     }
 }
