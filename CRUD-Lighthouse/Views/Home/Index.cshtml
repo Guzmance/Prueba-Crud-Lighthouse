@@ -3,7 +3,7 @@
 <h2>Category Management</h2>
 
 <p>
-    <a href="@Url.Action("Create")" class="btn btn-primary">Create New</a>
+    <a href="/Home/Create" class="btn btn-primary">Create New</a>
 </p>
 
 <div id="app" class="row">
@@ -16,9 +16,9 @@
                 <div class="col-md-8">
                     <div class="card-body">
                         <h5 class="card-title">{{ category.name }}</h5>
-                        <a :href="'/Categories/Details/' + category.id" class="btn btn-outline-primary">Details</a>
-                        <a :href="'/Categories/Edit/' + category.id" class="btn btn-outline-secondary">Edit</a>
-                        <a :href="'/Categories/Delete/' + category.id" class="btn btn-outline-danger">Delete</a>
+                        <a :href="'/categories/Details/' + category.id" class="btn btn-outline-primary">Details</a>
+                        <a :href="'/categories/Edit/' + category.id" class="btn btn-outline-secondary">Edit</a>
+                        <a :href="'/categories/Delete/' + category.id" class="btn btn-outline-danger">Delete</a>
                     </div>
                 </div>
             </div>

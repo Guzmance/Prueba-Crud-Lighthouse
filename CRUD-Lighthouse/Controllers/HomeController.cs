@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace CRUD_Lighthouse.Controllers
@@ -61,6 +62,62 @@ namespace CRUD_Lighthouse.Controllers
                 return View(category);
             }
         }
+
+        // Método para eliminar una categoría por ID
+        public async Task<ActionResult> Delete(int id)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(Baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response = await client.GetAsync($"categories/{id}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var categoryResponse = await response.Content.ReadAsStringAsync();
+                    var category = JsonConvert.DeserializeObject<Category>(categoryResponse);
+
+                    // Redirigir a la vista de confirmación con los detalles de la categoría
+                    return View("Delete", category);
+                }
+                else
+                {
+                    // Manejar la situación en la que la solicitud al servidor no fue exitosa
+                    // Puedes mostrar un mensaje de error o tomar otra acción apropiada
+                    ViewBag.ErrorMessage = "Hubo un error al intentar obtener los detalles de la categoría.";
+                    return View("Error");
+                }
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteConfirmed(int id)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(Baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response = await client.DeleteAsync($"categories/{id}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    // Redirigir a la página principal u otra vista apropiada después de la eliminación
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    // Manejar la situación en la que la eliminación no fue exitosa
+                    // Puedes mostrar un mensaje de error o tomar otra acción apropiada
+                    ViewBag.ErrorMessage = "La eliminación de la categoría no fue exitosa.";
+                    return View("Error");
+                }
+            }
+        }
+
 
     }
 }

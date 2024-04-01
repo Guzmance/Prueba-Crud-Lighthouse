@@ -24,13 +24,27 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
         name: "categoryDetails",
-        pattern: "Categories/Details/{id}",
+        pattern: "categories/details/{id}", // Cambiamos a minúsculas
         defaults: new { controller = "Home", action = "Details" }
+    );
+
+    endpoints.MapControllerRoute(
+        name: "categoryDelete",
+        pattern: "categories/delete/{id}", // Cambiamos a minúsculas
+        defaults: new { controller = "Home", action = "Delete" }
+    );
+
+    endpoints.MapControllerRoute(
+        name: "categoryDeleteConfirmed",
+        pattern: "categories/deleteconfirmed/{id}", // Cambiamos a minúsculas
+        defaults: new { controller = "Home", action = "DeleteConfirmed" }
     );
 
     endpoints.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}");
 });
+
+
 
 app.Run();
