@@ -1,42 +1,38 @@
 ﻿@model CRUD_Lighthouse.Models.Category
 
 <div id="app">
-    <h2>Edit Category</h2>
+    <h2 class="text-center">Edit Category</h2>
 
-    @using (Html.BeginForm("Edit", "Home", FormMethod.Post, new { id = "categoryForm" }))
+    @using (Html.BeginForm("Edit", "Home", FormMethod.Post, new { id = "categoryForm", @class = "row justify-content-center" }))
     {
         @Html.AntiForgeryToken()
 
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                            @Html.HiddenFor(model => model.Id) 
+                    @Html.HiddenFor(model => model.Id)
 
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-3" })
-                                <div class="col-md-9">
-                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", v_model = "name" } })
-                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "col-md-3 col-form-label text-md-right" })
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", v_model = "name" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-3" })
-                                <div class="col-md-9">
-                                    @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class = "form-control", v_model = "image" } })
-                                    @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "col-md-3 col-form-label text-md-right" })
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class = "form-control", v_model = "image" } })
+                            @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-                            <div class="form-group">
-                                <div class="col-md-offset-3 col-md-9">
-                                    <input type="submit" value="Save" class="btn btn-primary" />
-                                </div>
-                            </div>
+                    <div class="form-group row">
+                        <div class="col-md-9 offset-md-3">
+                            <input type="submit" value="Save" class="btn btn-primary" />
                         </div>
                     </div>
                 </div>
@@ -44,7 +40,7 @@
         </div>
     }
 
-    <div>
+    <div class="text-center">
         @Html.ActionLink("Back to List", "Index")
     </div>
 </div>

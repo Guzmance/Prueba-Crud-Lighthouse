@@ -1,31 +1,31 @@
 ﻿@model List<CRUD_Lighthouse.Models.Category>
 
-<h2>Category Management</h2>
+@{
+    ViewData["Title"] = "Category Management";
+}
 
-<p>
+<h2 class="text-center">Category Management</h2>
+
+<div class="text-center mb-3">
     <a href="/categories/create" class="btn btn-primary">Create New</a>
-</p>
+</div>
 
-
-<div id="app" class="row">
-    <div class="col-md-6" v-for="category in categories" :key="category.id">
-        <div class="card mb-3">
-            <div class="row g-0">
-                <div class="col-md-4">
-                    <img :src="category.image" class="img-fluid rounded-start" alt="Category Image" style="max-width: 100px;">
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ category.name }}</h5>
-                        <a :href="'/categories/Details/' + category.id" class="btn btn-outline-primary">Details</a>
-                        <a :href="'/categories/Edit/' + category.id" class="btn btn-outline-secondary">Edit</a>
-                        <a :href="'/categories/Delete/' + category.id" class="btn btn-outline-danger">Delete</a>
-                    </div>
+<div id="app" class="row justify-content-center">
+    <div class="col-sm-6 col-md-4 col-lg-3 mb-3" v-for="category in categories" :key="category.id">
+        <div class="card h-100">
+            <img :src="category.image" class="card-img-top" alt="Category Image" style="max-width: 100%; height: 200px;">
+            <div class="card-body">
+                <h5 class="card-title text-center">{{ category.name }}</h5>
+                <div class="text-center">
+                    <a :href="'/categories/Details/' + category.id" class="btn btn-outline-primary">Details</a>
+                    <a :href="'/categories/Edit/' + category.id" class="btn btn-outline-secondary">Edit</a>
+                    <a :href="'/categories/Delete/' + category.id" class="btn btn-outline-danger">Delete</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 @section Scripts {
     <script>
         var app = new Vue({
@@ -36,4 +36,3 @@
         });
     </script>
 }
-
