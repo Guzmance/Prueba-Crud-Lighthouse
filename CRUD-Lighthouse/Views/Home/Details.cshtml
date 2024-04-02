@@ -1,0 +1,30 @@
+﻿@model CRUD_Lighthouse.Models.Category
+
+@{
+    ViewData["Title"] = "Category Details";
+}
+
+<div id="app" class="container">
+    <div class="card mx-auto mt-5" style="max-width: 400px;">
+        <img :src="category.image" class="card-img-top" alt="Category Image">
+        <div class="card-body">
+            <h5 class="card-title text-center">{{ category.name }}</h5>
+            <div class="text-center">
+                <a href="@Url.Action("Index", "Home")" class="btn btn-primary">Back to List</a>
+                <a :href="'/Categories/Edit/' + category.id" class="btn btn-warning ml-2">Edit</a>
+                <a :href="'/Categories/Delete/' + category.id" class="btn btn-danger ml-2">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                category: @Html.Raw(Json.Serialize(Model))
+                    }
+        });
+    </script>
+}
