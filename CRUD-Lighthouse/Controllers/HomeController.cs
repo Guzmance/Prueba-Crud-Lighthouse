@@ -118,6 +118,62 @@ namespace CRUD_Lighthouse.Controllers
             }
         }
 
+        // GET: Create
+        public ActionResult create()
+        {
+            return View();
+        }
+
+
+        // POST: Create
+
+        [HttpPost]
+        public ActionResult create(Category category)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    // Crear un objeto JSON con los datos de la categoría
+                    var categoryData = new
+                    {
+                        name = category.Name,
+                        image = category.Image
+                    };
+
+                    // Serializar el objeto JSON
+                    var jsonCategoryData = JsonConvert.SerializeObject(categoryData);
+
+                    using (var client = new HttpClient())
+                    {
+                        client.BaseAddress = new Uri(Baseurl);
+
+                        // Establecer el tipo de contenido de la solicitud como JSON
+                        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                        // Crear la solicitud POST con el contenido JSON
+                        var postTask = client.PostAsync("categories/", new StringContent(jsonCategoryData, Encoding.UTF8, "application/json"));
+                        postTask.Wait();
+
+                        var result = postTask.Result;
+                        if (result.IsSuccessStatusCode)
+                        {
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            ModelState.AddModelError(string.Empty, "API Error: " + result.ReasonPhrase);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, "An error occurred: " + ex.Message);
+            }
+
+            return View(category);
+        }
 
     }
 }
