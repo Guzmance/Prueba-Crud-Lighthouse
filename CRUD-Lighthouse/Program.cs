@@ -47,6 +47,12 @@ app.UseEndpoints(endpoints =>
     );
 
     endpoints.MapControllerRoute(
+        name: "edit",
+        pattern: "categories/edit/{id?}",
+        defaults: new { controller = "Home", action = "Edit" }
+);
+
+    endpoints.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}");
 });
